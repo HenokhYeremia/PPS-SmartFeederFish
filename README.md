@@ -18,6 +18,7 @@ Detail lengkap, gap, roadmap, dan keputusan terbuka:
 ## Cara menjalankan
 
 Dari nol sampai aplikasi bisa dipakai: **[START.md](START.md)**.
+Tanpa emulator — langsung di Chrome/Edge laptop: **[RUN-WEB.md](RUN-WEB.md)**.
 
 ## Dokumentasi formal
 

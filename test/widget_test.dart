@@ -106,5 +106,42 @@ void main() {
   test('ownership rules note stays scoped to users/{uid}', () {
     expect(proposedOwnershipRulesNote, contains('users/{uid}'));
   });
+
+  testWidgets('AuthPage toggles password visibility', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(home: AuthPage(authService: TestAuthService())),
+    );
+
+    // Keadaan awal: password tersembunyi → ikon menampilkan "off".
+    expect(find.byIcon(Icons.visibility_off_outlined), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.visibility_off_outlined));
+    await tester.pump();
+
+    // Setelah toggle: password tampil → ikon "visibility".
+    expect(find.byIcon(Icons.visibility_outlined), findsOneWidget);
+  });
+
+  testWidgets('AuthPage shows failure banner after failed submit', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(home: AuthPage(authService: TestAuthService())),
+    );
+
+    await tester.enterText(find.byType(TextFormField).first, 'a@b.co');
+    await tester.enterText(
+      find.byType(TextFormField).last,
+      'password123',
+    );
+    await tester.tap(find.widgetWithText(FilledButton, 'Login'));
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.byIcon(Icons.error_outline), findsOneWidget);
+    expect(find.text('test-only'), findsOneWidget);
+  });
 }
 

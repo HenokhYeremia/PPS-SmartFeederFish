@@ -32,7 +32,7 @@ Folder `docs/` (dibuat 2026-10-22) menyimpan dokumentasi proyek:
 ```bat
 flutter pub get
 flutter analyze   # No issues found
-flutter test      # All tests passed (5 test)
+flutter test      # All tests passed (7 test)
 ```
 
 ## Struktur
@@ -40,7 +40,7 @@ flutter test      # All tests passed (5 test)
 ```
 lib/
   main.dart                  entry point + Firebase init
-  app/                       root app + theme (Material 3)
+  app/                       root app + design tokens + theme "Lagoon"
   features/auth/             AuthService (Firebase) + UI login/register
   features/foundation/       halaman placeholder pasca-login
   data/                      UserDatabase (refs /users/{uid}) + catatan rules

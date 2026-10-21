@@ -19,7 +19,7 @@ RTDB lolos analyze/test, namun menurut prinsip "dapat dipakai":
 | 1 | Bukan git repo (tidak ada riwayat/rollback) | 🔴 Tinggi — LAKUKAN SEKARANG | risiko kehilangan kode; docs baru taruh baik | `git init` + commit |
 | 2 | RTDB belum diprovisikan (tidak ada `databaseURL`) | 🔴 Tinggi (D-2) | semua langkah data stream tersendat | Console → flutterfire configure |
 | 3 | Rules RTDB PROPOSED belum di-deploy | 🔴 Tinggi | data tak terlindungi/terkunci | STATUS §6 Step 08 |
-| 4 | Dashboard 0% & UI default → terasa jelek | 🟠 Tinggi (produk) | nilai produk belum terasa | docs/04 chunk C1–C3 |
+| 4 | Pasca-login masih placeholder (dashboard 0%) | 🟠 Tinggi (produk) | nilai produk belum terasa | docs/04 chunk C3 |
 | 5 | Dokumen "single source" belum ada untuk PRD/arsitektur/skema/UI | ✅ BAGIAN DITUTUP hari ini oleh `docs/` | inilah yang dianalisis | review docs |
 | 6 | Skema RTDB & converter model belum ada | 🟠 Menengah (Step 09) | UI & firmware tidak bisa diseragimkan | docs/03 → kontrak |
 | 7 | Manajemen perangkat 0% (D-1 menunggu) | 🟠 Menengah | pairing & layout rules macet | putuskan D-1 dulu |
@@ -53,11 +53,15 @@ Yang masih kurang setelah hari ini:
 
 ## 4. Gap UI Ringkas (detail di docs/04)
 
-1. Theme default (tanpa token/type/motion) — terasa template.
-2. Semua layar punya teks placeholder ("Application foundation ready").
-3. Tidak ada state desain (loading/empty/error) & skeleton.
-4. Tidak ada identitas: logo, launcher icon, splash, aset nol.
-5. Tidak ada grafik kartu untuk fitur monitoring (fitur inti belum terlihat).
+Ditutup 2026-10-22 (chunk C1+C2): design tokens + theme "Lagoon"
+light/dark, font terbundel, halaman auth premium (field ikon,
+toggle password, banner status, spinner tombol).
+
+Masih terbuka:
+1. Pasca-login masih placeholder ("Application foundation ready").
+2. Tidak ada state desain untuk data (empty/error/skeleton).
+3. Tidak ada identitas aset: launcher icon, splash, logo vektor.
+4. Grafik monitoring belum ada (fitur inti belum terlihat).
 
 ## 5. Gap Pengujian (target saat roadmap lanjut)
 

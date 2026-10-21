@@ -1,9 +1,10 @@
 # 04 — Design System & Blueprint UI "Premium"
 
-> Status: **BLUEPRINT** — spesifikasi untuk implementasi; belum satu pun
-> diimplementasi di kode (kecuali seed teal yang sudah ada).
-> Audit dibuat 2026-10-22 dari pembacaan `lib/app/theme.dart`,
-> `features/auth/auth_page.dart`, `features/foundation/foundation_page.dart`.
+> Status: **SEBAGIAN** — chunk C1 (tokens/theme/font) dan C2 (auth
+> premium) selesai & terverifikasi 2026-10-22 (analyze 0 issue,
+> 7 test hijau). Audit di bawah menggambarkan kondisi **sebelum
+> C1/C2**; C3–C4 (dashboard shell, aset/launcher/splash) masih
+> BLUEPRINT.
 
 ## 1. Audit: Kenapa UI Saat Ini Terasa "Jelek" / Bukan Premium
 
@@ -176,8 +177,8 @@ versi app.
 
 | Chunk | Isi | Syarat selesai |
 |---|---|---|
-| C1 | `design_tokens.dart` + rewrite `theme.dart` + font terbundel; **tanpa** ubah logika | analyze/test tetap hijau; layar lama tampil bagus |
-| C2 | Auth screen baru (§6.2) | alur register/login/eror teruji |
+| C1 ✅ | `design_tokens.dart` + rewrite `theme.dart` + font terbundel; **tanpa** ubah logika — SELESAI 2026-10-22 | analyze/test tetap hijau; layar lama tampil bagus |
+| C2 ✅ | Auth screen baru (§6.2) — SELESAI 2026-10-22 | alur register/login/eror teruji (+2 test baru: toggle password, banner gagal) |
 | C3 | Shell dashboard (§6.3) + komponen StatCard/EmptyState dsb | data tiruan via `DevDataSource`, tanpa menyentuh RTDB |
 | C4 | Launcher icon, splash native, polish motion | checklist §7 hijau |
 

@@ -3,7 +3,7 @@
 > Dokumen ini adalah **kantor pusat status**: patokan progres, gap, dan
 > keputusan proyek. Perbarui setiap kali satu milestone selesai.
 >
-> Terakhir diverifikasi: **2026-10-17**
+> Terakhir diverifikasi: **2026-10-22**
 > (flutter analyze + flutter test dijalankan ulang pada tanggal ini).
 
 ## 1. Identitas & Fingerprint Proyek
@@ -27,14 +27,19 @@ perubahan. Jika satu saja merah, perubahan tidak boleh dianggap selesai.
 cd /d "D:\PPS APP"
 flutter pub get
 flutter analyze   :: HARUS: No issues found
-flutter test      :: HARUS: All tests passed (5 test)
+flutter test      :: HARUS: All tests passed (7 test)
 ```
 
 Status terverifikasi 2026-10-17:
 
 - [x] `flutter analyze` -> **No issues found!** (14.3 s)
 - [x] `flutter test` -> **All tests passed!** (+5 test)
-- [ ] git repository dengan commit awal -> **belum ada**
+- [x] git repository + commit awal -> SELESAI 2026-10-22 (branch main)
+
+Status terverifikasi 2026-10-22 (setelah chunk C1+C2 design system):
+
+- [x] `flutter analyze` -> **No issues found!**
+- [x] `flutter test` -> **All tests passed!** (+7 test)
 
 ## 3. Yang Sudah SELESAI (dengan bukti)
 
@@ -52,6 +57,8 @@ Step 03 (fondasi aplikasi), Step 07 (auth), Step 08 (ownership RTDB).
 | Auth gate | StreamBuilder `authStateChanges()`, tanpa state-management package | `lib/features/auth/auth_gate.dart` |
 | Pesan error aman | Mapping kode Firebase -> bahasa Indonesia, tanpa token/stack trace | `lib/features/auth/auth_error_messages.dart` |
 | Navigasi dasar | Halaman kedua bukti Navigator bawaan | `lib/features/foundation/foundation_page.dart` |
+| Design tokens + theme "Lagoon" | Sumber tunggal warna/spacing/radius/motion, theme light & dark didesain ulang, font terbundel (chunk C1) | `lib/app/design_tokens.dart`, `lib/app/theme.dart`, `assets/fonts/` |
+| Auth UI premium | Header merek, card form, ikon field, toggle password, banner status, spinner di dalam tombol (chunk C2) | `lib/features/auth/auth_page.dart` |
 | Ownership RTDB | `UserDatabase` hanya referensi `/users/{uid}` dan `/users/{uid}/devices/{ref}`; null bila belum login | `lib/data/user_database.dart` |
 | Catatan security rules | Kandidat rules `users/{uid}`, berstatus PROPOSED — NOT DEPLOYED | `lib/data/ownership_rules_note.dart` |
 | Model domain (stub) | `Device`, `TurbidityReading`, `FeedStock`, `FeedingSchedule` — sengaja opaque, tanpa asumsi satuan/protokol | `lib/domain/` |
@@ -120,6 +127,8 @@ register -> halaman utama tampil UID/email -> logout -> login kembali.
 | Firebase Core + konfigurasi Android | SELESAI |
 | Auth email/password (register, login, logout) | SELESAI |
 | Navigasi + theme fondasi | SELESAI |
+| Design system C1 (tokens, theme, font terbundel) | SELESAI (2026-10-22) |
+| Auth premium C2 | SELESAI (2026-10-22) |
 | Referensi RTDB per-user | SELESAI (refs saja) |
 | Realtime Database di Console + databaseURL | **MISSING** |
 | Security rules RTDB | **PROPOSED, belum deploy** |
@@ -194,7 +203,9 @@ Fondasi (status saat ini — TERVERIFIKASI 2026-10-17):
 - [x] analyze + test hijau (5 test).
 - [x] START.md sebagai panduan jalan.
 - [x] STATUS.md (dokumen ini) sebagai patokan progres.
-- [ ] git commit pertama.
+- [x] git commit pertama (2026-10-22, branch main).
+- [x] Design system chunk C1 + C2 terverifikasi 2026-10-22
+      (analyze 0 issue, 7 test; lihat docs/04-design-system.md §8).
 
 Step 08 tuntas:
 

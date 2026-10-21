@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "737854019568",
+    "project_id": "fish-feeder-ebd70",
+    "storage_bucket": "fish-feeder-ebd70.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:737854019568:android:bf42a72c7ce4ada279af35",
+        "android_client_info": {
+          "package_name": "FEEDER.IO"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8rJIFpqMmqoP8oBT3Nh6y4UvDJ-hzj5w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:737854019568:android:8a0494d4acdf845879af35",
+        "android_client_info": {
+          "package_name": "com.example.smart_fish_feeder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8rJIFpqMmqoP8oBT3Nh6y4UvDJ-hzj5w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

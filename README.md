@@ -8,6 +8,8 @@ ESP32 — dibangun bertahap dengan Firebase (Core, Auth, Realtime Database).
 
 Fondasi saja: environment terverifikasi, Firebase Core, Auth
 email/password (register/login/logout), dan referensi RTDB per-user.
+Step 08B (2026-10-22): RTDB `asia-southeast1` hidup (locked), rules
+ownership deployed via CLI dan diuji dua akun.
 BELUM ada dashboard, data sensor, jadwal, servo, BLE, atau notifikasi.
 
 Detail lengkap, gap, roadmap, dan keputusan terbuka:

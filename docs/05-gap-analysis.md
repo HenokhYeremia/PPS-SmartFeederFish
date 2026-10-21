@@ -8,17 +8,19 @@
 Proyek ini punya **fondasi yang benar tapi sempit**: auth + ownership
 RTDB lolos analyze/test, namun menurut prinsip "dapat dipakai":
 - Belum ada fitur pengguna nyata (dashboard/jadwal/perangkat 0%).
-- UI belum punya identitas (theme default — lihat docs/04).
-- Infrastruktur pengembangan (git/CI) nihil.
-- RTDB hidup belum ada — menghalangi semua fitur berbasis data.
+- UI: identitas visual "Lagoon" + auth premium SELESAI (C1+C2);
+  pasca-login masih placeholder (lihat docs/04 §6).
+- Infrastruktur pengembangan: git SELESAI (branch `main`); CI nihil.
+- RTDB hidup + rules ownership deployed & diuji — SELESAI 2026-10-22
+  (Step 08B; region `asia-southeast1`, locked, bukti di D-2).
 
 ## 2. Matriks Gap (prioritas, dengan dampak)
 
 | # | Gap | Prioritas | Dampak bila ditunda | Titik mulai |
 |---|---|---|---|---|
-| 1 | Bukan git repo (tidak ada riwayat/rollback) | 🔴 Tinggi — LAKUKAN SEKARANG | risiko kehilangan kode; docs baru taruh baik | `git init` + commit |
-| 2 | RTDB belum diprovisikan (tidak ada `databaseURL`) | 🔴 Tinggi (D-2) | semua langkah data stream tersendat | Console → flutterfire configure |
-| 3 | Rules RTDB PROPOSED belum di-deploy | 🔴 Tinggi | data tak terlindungi/terkunci | STATUS §6 Step 08 |
+| 1 (DITUTUP 2026-10-22) | ~~git repo~~ — riwayat/rollback aktif | — | — | branch `main` jalan |
+| 2 (DITUTUP 2026-10-22) | ~~RTDB belum diprovisikan~~ — kini hidup + `databaseURL` | — | — | flutterfire configure ✓ |
+| 3 (DITUTUP 2026-10-22) | ~~Rules belum deploy~~ — rules ownership live + diuji 2 akun | — | — | `firebase deploy --only database` ✓ |
 | 4 | Pasca-login masih placeholder (dashboard 0%) | 🟠 Tinggi (produk) | nilai produk belum terasa | docs/04 chunk C3 |
 | 5 | Dokumen "single source" belum ada untuk PRD/arsitektur/skema/UI | ✅ BAGIAN DITUTUP hari ini oleh `docs/` | inilah yang dianalisis | review docs |
 | 6 | Skema RTDB & converter model belum ada | 🟠 Menengah (Step 09) | UI & firmware tidak bisa diseragimkan | docs/03 → kontrak |
@@ -26,7 +28,7 @@ RTDB lolos analyze/test, namun menurut prinsip "dapat dipakai":
 | 8 | BLE provisioning 0% (D-4) + kontrak firmware ESP32 | 🟠 Menengah | fitur core IoT tidak jalan | Step 11 |
 | 9 | Fuzzy logic tidak terdokumen (D-5) | 🟡 | pola data feed tidak bisa ditetapkan | dokumentasi keputusan |
 | 10 | Notifikasi 0% (D-8) | 🟡 | pengalaman pasif | Step 14 |
-| 11 | Test hanya 5 (auth). Domain/converter/repo 0 test | 🟡 Menengah | regresi tersembunyi | tambah per chunk |
+| 11 | Test hanya 7 (auth). Domain/converter/repo 0 test | 🟡 Menengah | regresi tersembunyi | tambah per chunk |
 | 12 | Auth lanjutan: lupa sandi, verifikasi email, hapus akun | 🟡 | ada juga user real akan kesulitan | setelah Step 12 |
 | 13 | Rilis: signing debug saja, flavor dev/prod, app icon, splash | 🟡 | tidak bisa disebarkan serius | sebelum publik |
 | 14 | CI (analyze+test per push) tidak ada | 🟢 | kualitas dijaga manual | setelah git |
@@ -71,7 +73,7 @@ Masih terbuka:
 | AuthPage render | 1 test | tambah alur toggle/validasi fail |
 | App boot dengan fake auth | 1 test | tetap |
 | UserDatabase null-refs | 1 test | + test "uid ada → ref benar" (butuh fake db) |
-| Rules RTDB | 0 | uji manual 2 akun saat Step 08 + catat di D-2 |
+| Rules RTDB | diuji manual 2 akun (Step 08B 2026-10-22, catat di D-2) | tetap + regresi tiap ubah rules |
 | Converter model↔map | 0 | wajib 4 model saat Step 09 |
 | Repository stream cancel-on-logout | 0 | smoke test Step 12 |
 
@@ -79,9 +81,9 @@ Masih terbuka:
 
 Sesuai roadmap STATUS.md: RTDB dulu (tanpa data, dashboard hanya mock).
 Rekomendasi urutan kerja minggu depan:
-1. `git init` + commit (hari ini).
-2. Deploy RTDB + rules (Step 08 tuntas) → catat D-2.
-3. docs/04 chunk C1 (tokens+font) — aman tanpa backend.
+1. ~~`git init` + commit~~ — SELESAI 2026-10-22 (branch `main`).
+2. ~~Deploy RTDB + rules (Step 08 tuntas)~~ — SELESAI 2026-10-22 (D-2 tercatat).
+3. ~~docs/04 chunk C1 (tokens+font)~~ — SELESAI 2026-10-22 (C1+C2).
 4. Putuskan D-1 (device id) → buka jalan Step 09/10.
 5. Baru dashboard nyata (Step 12) memakai stream.
 

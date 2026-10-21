@@ -16,7 +16,7 @@
 | Firebase Project | FISH-FEEDER, `fish-feeder-ebd70` | firebase.json |
 | Android appId | `com.example.smart_fish_feeder` | google-services.json |
 | Platform target | Android (utama), Chrome/web pendukung | android/, chrome/ |
-| Kontrol versi | **BELUM ADA (bukan git repo)** | `git status` gagal |
+| Kontrol versi | git repo (branch `main`) | `git status` bersih |
 
 ## 2. Garis Dasar Kualitas (Patokan Wajib)
 
@@ -41,6 +41,11 @@ Status terverifikasi 2026-10-22 (setelah chunk C1+C2 design system):
 - [x] `flutter analyze` -> **No issues found!**
 - [x] `flutter test` -> **All tests passed!** (+7 test)
 
+Status terverifikasi 2026-10-22 (Step 08B — RTDB hidup + rules):
+
+- [x] `flutter analyze` -> **No issues found!**
+- [x] `flutter test` -> **All tests passed!** (+7 test)
+
 ## 3. Yang Sudah SELESAI (dengan bukti)
 
 Tahap yang dirujuk di komentar kode: Step 02 (lingkungan),
@@ -60,9 +65,11 @@ Step 03 (fondasi aplikasi), Step 07 (auth), Step 08 (ownership RTDB).
 | Design tokens + theme "Lagoon" | Sumber tunggal warna/spacing/radius/motion, theme light & dark didesain ulang, font terbundel (chunk C1) | `lib/app/design_tokens.dart`, `lib/app/theme.dart`, `assets/fonts/` |
 | Auth UI premium | Header merek, card form, ikon field, toggle password, banner status, spinner di dalam tombol (chunk C2) | `lib/features/auth/auth_page.dart` |
 | Ownership RTDB | `UserDatabase` hanya referensi `/users/{uid}` dan `/users/{uid}/devices/{ref}`; null bila belum login | `lib/data/user_database.dart` |
-| Catatan security rules | Kandidat rules `users/{uid}`, berstatus PROPOSED — NOT DEPLOYED | `lib/data/ownership_rules_note.dart` |
+| RTDB hidup + konfig | Region `asia-southeast1`, locked mode; `databaseURL` merekat setelah `flutterfire configure` | `lib/firebase_options.dart`, `android/app/google-services.json` |
+| Security rules RTDB deployed | Ownership `users/{uid}` deploy via CLI (`firebase deploy --only database`, verifikasi "released successfully") + wiring reproducible; diuji dua akun REST (P 200/200; N 401×3; data & akun uji dihapus) | `database.rules.json`, `firebase.json`, `.firebaserc` |
+| Catatan security rules | Kandidat rules lama di kode (PROPOSED); rules final kini hidup di `database.rules.json` (deployed) | `lib/data/ownership_rules_note.dart` |
 | Model domain (stub) | `Device`, `TurbidityReading`, `FeedStock`, `FeedingSchedule` — sengaja opaque, tanpa asumsi satuan/protokol | `lib/domain/` |
-| Pengujian | 5 test: mapping error, render AuthPage, app build dengan auth injeksi, UserDatabase null-ref, scope rules | `test/widget_test.dart` |
+| Pengujian | 7 test: mapping error, render AuthPage, app build dengan auth injeksi, UserDatabase null-ref, scope rules, toggle password, banner gagal submit | `test/widget_test.dart` |
 | Dokumentasi cara jalan | START.md lengkap dari nol sampai bisa dipakai | `START.md` |
 
 Definisi selesai yang tercapai untuk fondasi:
@@ -72,18 +79,22 @@ register -> halaman utama tampil UID/email -> logout -> login kembali.
 
 ### 4.1 Prioritas Tinggi (menghalangi fitur inti)
 
-1. **Kontrol versi nihil.** Folder bukan git repo. Risiko: kehilangan
-   kode, tidak ada riwayat, tidak bisa rollback. Wajib: `git init`,
-   commit awal, remote GitHub/GitLab.
-2. **Realtime Database belum diprovisikan.** `google-services.json`
-   TIDAK berisi `firebase_database_url`, dan `firebase_options.dart`
-   tidak ada `databaseURL`. Konsekuensi: `FirebaseDatabase.instance`
-   belum bisa dipakai nyata. Tindakan: buat RTDB di Console
-   (region + mode), jalankan ulang `flutterfire configure`.
-3. **Security rules belum di-deploy.** Hanya catatan PROPOSED di
-   `ownership_rules_note.dart`. Selama rules default Console
-   (mode uji/terkunci) belum diganti rules ownership, data belum
-   terlindungi (atau terkunci).
+1. DITUTUP 2026-10-22: **Kontrol versi.** git repo aktif (branch
+   `main`, riwayat commit jalan) — bukan lagi non-repo.
+2. DITUTUP 2026-10-22: **Realtime Database diprovisikan.**
+   Instance `fish-feeder-ebd70-default-rtdb`, region **`asia-southeast1`**
+   (Jakarta/`asia-southeast2` tidak tersedia saat provisioning —
+   ketetapan user: Singapura dianggap sah), mode **locked** dari awal.
+   `databaseURL` kini ada di `firebase_options.dart` dan
+   `firebase_url` di `google-services.json` (via `flutterfire
+   configure` 1.4.1, appId Android tidak berubah).
+3. DITUTUP 2026-10-22: **Security rules deployed + diuji.**
+   Rules ownership `users/{uid}` live via
+   `firebase deploy --only database` (wiring `database.rules.json` +
+   `firebase.json` + `.firebaserc`, reproducible). Uji REST dua akun:
+   positif PUT/GET subtree sendiri = 200/200; negatif baca/tulis
+   subtree user lain = 401, root tanpa auth = 401; data & akun uji
+   dihapus bersih. Bukti: transkrip uji Step 08B, D-2.
 4. **Dashboard monitoring 0%.** Halaman utama masih placeholder
    ("Application foundation ready"). Tidak ada: tampilan kekeruhan
    (turbidity) real-time, level stok pakan, tombol feed manual,
@@ -130,8 +141,8 @@ register -> halaman utama tampil UID/email -> logout -> login kembali.
 | Design system C1 (tokens, theme, font terbundel) | SELESAI (2026-10-22) |
 | Auth premium C2 | SELESAI (2026-10-22) |
 | Referensi RTDB per-user | SELESAI (refs saja) |
-| Realtime Database di Console + databaseURL | **MISSING** |
-| Security rules RTDB | **PROPOSED, belum deploy** |
+| Realtime Database di Console + databaseURL | SELESAI (2026-10-22, `asia-southeast1`, locked) |
+| Security rules RTDB | SELESAI — deployed + diuji dua akun (2026-10-22) |
 | Dashboard monitoring (turbidity, stok, riwayat) | **MISSING** |
 | CRUD jadwal pakan | **MISSING** |
 | Manajemen perangkat | **MISSING** |
@@ -140,19 +151,20 @@ register -> halaman utama tampil UID/email -> logout -> login kembali.
 | Fuzzy logic pakan | **BELUM DIPUTUSKAN/DIDOKUMENKAN** |
 | Notifikasi | **MISSING** |
 | Auth lanjutan (reset password, verifikasi email) | **MISSING** |
-| Git + CI | **MISSING** |
+| Git + CI | Git SELESAI (branch main); CI **MISSING** |
 | Rilis signing + flavor | **MISSING** |
 
 ## 6. Peta Jalan Berikutnya (dengan kriteria selesai)
 
 Dilanjutkan dari penomoran step yang sudah ada di kode.
 
-- **Step 08 (tuntas): RTDB hidup.**
-  Buat RTDB di Console, jalankan `flutterfire configure`,
-  deploy rules ownership `users/{uid}` yang sudah PROPOSED.
-  Selesai jika: satu nilai test di `/users/{uid}/meta/lastWrite`
-  bisa dibaca&ditulis dari user login, ditolak dari user lain,
-  dan tercatat di decision log D-2.
+- **Step 08 (tuntas): RTDB hidup — TUNTAS 2026-10-22.**
+  RTDB dibuat (region aktual `asia-southeast1` — Jakarta tidak
+  tersedia; mode locked), `flutterfire configure` dijalankan,
+  rules ownership `users/{uid}` di-deploy via CLI.
+  Kriteria tercapai: nilai test `/users/{uid}/meta/lastWrite`
+  dibaca&ditulis oleh pemilik (200/200), ditolak dari user lain
+  (401) dan tanpa auth (401), pencatatan di decision log D-2.
 - **Step 09: Skema data RTDB final.**
   Kunci struktur: `users/{uid}/devices/{deviceId}/{meta,turbidity,feedStock,schedules,logs}`.
   Selesai jika: skema terdokumen + konverter model <-> map + test.
@@ -176,16 +188,16 @@ Dilanjutkan dari penomoran step yang sudah ada di kode.
   (lokal atau FCM push — menunggu keputusan D-8).
 - **Step 15: Rilis.** signing, flavor, versi, polish UI, README final.
 
-Urutan lintas-fungsi yang WAJIB dijalankan mulai sekarang:
-1. **git init + commit saat ini** (sebelum menyentuh kode lagi).
-2. Baru lanjut Step 08.
+Urutan lintas-fungsi (status):
+1. **git init + commit** — SELESAI 2026-10-22 (branch `main`).
+2. Step 08 — SELESAI 2026-10-22 (lihat checklist §8).
 
 ## 7. Keputusan Terbuka (Decision Log)
 
 | ID | Keputusan | Opsi | Dampak bila ditunda |
 |---|---|---|---|
 | D-1 | Format device ID (MAC ESP32? UUID app-generated? kode QR?) | — | Manajemen perangkat & rules device-level tidak bisa dikunci |
-| D-2 | Region & mode RTDB, lalu deploy rules | — | Step 08 tersendat |
+| D-2 | Region & mode RTDB, lalu deploy rules | TUNTAS 2026-10-22: `asia-southeast1` (Singapura; Jakarta tidak tersedia), locked mode, rules ownership deployed + diuji dua akun REST | — |
 | D-3 | Skema RTDB final (dibungkus devices atau flat?) | — | Firmware & UI mengikuti skema ini |
 | D-4 | Metode provisioning (BLE only? Wi-Fi AP mode? keduanya?) | — | Dependency & UI pasangan |
 | D-5 | Fuzzy logic: di ESP32 firmware atau di app? | — | Pola data & pengujian |
@@ -207,9 +219,11 @@ Fondasi (status saat ini — TERVERIFIKASI 2026-10-17):
 - [x] Design system chunk C1 + C2 terverifikasi 2026-10-22
       (analyze 0 issue, 7 test; lihat docs/04-design-system.md §8).
 
-Step 08 tuntas:
+Step 08 tuntas (TERVERIFIKASI 2026-10-22):
 
-- [ ] RTDB dibuat + databaseURL terkonfigurasi di `firebase_options.dart`.
-- [ ] Rules ownership `users/{uid}` di-deploy & diuji dua akun.
+- [x] RTDB dibuat + databaseURL terkonfigurasi di `firebase_options.dart`.
+- [x] Rules ownership `users/{uid}` di-deploy & diuji dua akun.
+      Bukti: deploy "released successfully" + uji REST dua akun
+      (P 200/200; N 401×3); data & akun uji dihapus bersih.
 
 (Sisanya mengikuti peta jalan Bagian 6.)

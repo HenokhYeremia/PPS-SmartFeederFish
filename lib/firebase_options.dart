@@ -57,6 +57,7 @@ class DefaultFirebaseOptions {
     appId: '1:737854019568:android:8a0494d4acdf845879af35',
     messagingSenderId: '737854019568',
     projectId: 'fish-feeder-ebd70',
+    databaseURL: 'https://fish-feeder-ebd70-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'fish-feeder-ebd70.firebasestorage.app',
   );
 }

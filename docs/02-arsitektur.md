@@ -8,7 +8,7 @@
 ```
 lib/
   main.dart                     entry: init Firebase → runApp
-  firebase_options.dart         config FlutterFire (TANPA databaseURL — RTDB belum diprovisikan)
+  firebase_options.dart         config FlutterFire (databaseURL asia-southeast1 — Step 08B)
   app/
     app.dart                    MaterialApp + theme + AuthGate
     theme.dart                  Material 3, seed teal, light/dark  (minimal — lihat docs/04)
@@ -24,7 +24,7 @@ lib/
       foundation_page.dart      placeholder pasca-login (BUKAN dashboard) + halaman kedua uji Navigator
   data/
     user_database.dart          refs /users/{uid} + /devices (opaque ref)
-    ownership_rules_note.dart   rules PROPOSED — NOT DEPLOYED
+    ownership_rules_note.dart   catatan kandidat rules; final → database.rules.json (deployed)
   domain/
     device.dart                 Device {id, name} — stub
     turbidity.dart              TurbidityReading {value, recordedAt} — stub
@@ -110,6 +110,6 @@ ESP32  ◄── commands/feed  ·  ▲ turbidity/feedStock streams (device→RT
 |---|---|---|
 | A-1 | `FoundationPage` placeholder nanti jadi dashboard → pindah ke `features/dashboard/` saat Step 12 | Step 12 |
 | A-2 | `domain/feeding_schedule.dart` mengimpor Flutter (`TimeOfDay`) → ganti ke tipe jam netral (mis. `int minutesOfDay`) + konversi di UI | Step 09 |
-| A-3 | `-databaseURL` belum ada → RTDB tidak nyata; UI yang memakai stream akan rusak | Sebelum Step 08 tuntas |
-| A-4 | Bukan git repo → tidak ada rollback/riwayat | SEKARANG (instruksi STATUS.md §6) |
+| A-3 (DITUTUP 2026-10-22) | `databaseURL` kini terpasang (`asia-southeast1`) — RTDB nyata dan `firebase_options.dart` merekat | ✓ Step 08B |
+| A-4 (DITUTUP 2026-10-22) | git repo aktif (branch `main`) — rollback/riwayat tersedia | ✓ |
 | A-5 | Tanpa caching/offline: RTDB persistence belum disetel (menunggu D-2/D-3) | Step 12 |

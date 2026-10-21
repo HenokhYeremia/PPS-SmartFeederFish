@@ -1,10 +1,14 @@
 # 03 — Skema Data RTDB & Security Rules
 
-> Status: **PROPOSED — NOT DEPLOYED, NOT VERIFIED.**
-> RTDB sendiri belum tersedia: `firebase_options.dart` dan
-> `google-services.json` TIDAK mengandung `databaseURL` /
-> `firebase_database_url` (diverifikasi 2026-10-22).
-> Peringatan: jangan deploy rules/skema ini tanpa menjalankan Step 08.
+> Status: **AKTIF (Step 08B tuntas 2026-10-22).**
+> RTDB `fish-feeder-ebd70-default-rtdb` hidup, region **`asia-southeast1`**
+> (Singapura — `asia-southeast2`/Jakarta tidak tersedia saat provisioning),
+> mode **locked** sejak awal. Rules §3.1 di-deploy via CLI (`firebase deploy
+> --only database`) dan **diuji dua akun REST**: positif PUT/GET subtree
+> sendiri 200/200; negatif lintas-user 401, tanpa auth 401; data uji +
+> akun uji dihapus bersih. Rules tingkat perangkat ($deviceId) masih
+> menunggu D-1 — tidak termasuk rules yang live.
+> URL: https://fish-feeder-ebd70-default-rtdb.asia-southeast1.firebasedatabase.app
 
 ## 1. Yang Sudah Ada di Kode (faktual)
 
@@ -79,8 +83,10 @@ Catatan desain:
 }
 ```
 
-Status: PROPOSED — tidak di-deploy. **Jangan** copy-paste ke Console
-tanpa verifikasi struktur aktual.
+Status: **DEPLOYED & DIUJI (2026-10-22)** — file `database.rules.json`,
+deploy via `firebase deploy --only database` (wiring `firebase.json`
++ `.firebaserc`; reproduceable). Hasil uji REST dua akun: P1/P2
+positif 200/200, N1/N2/N3 negatif 401, cleanup bersih.
 
 ### 3.2 Tahap device-level (menunggu D-1/D-3 — belum dirancang)
 
@@ -100,9 +106,11 @@ pada tahap ini.
 
 Wajib: test round-trip untuk KEEMPAT converter (sekarang: 0 test).
 
-## 5. Kriteria Selesai Step 08 (dari STATUS.md §6)
+## 5. Kriteria Selesai Step 08 (dari STATUS.md §6) — TUNTAS 2026-10-22
 
-1. RTDB dibuat di Console + `databaseURL` muncul di `firebase_options.dart`.
-2. Rules §3.1 di-deploy + dua akun dipakai uji: user A bisa
-   write/read `/users/A/meta/lastWrite`; user B ditolak.
-3. Dicatat di decision log (D-2) dengan tanggal & hasil.
+1. [x] RTDB dibuat di Console + `databaseURL` muncul di
+       `firebase_options.dart` (region `asia-southeast1`, locked).
+2. [x] Rules §3.1 di-deploy + dua akun dipakai uji: user A bisa
+       write/read `/users/A/meta/lastWrite` (200/200); user B ditolak
+       (401); unauth ditolak (401).
+3. [x] Dicatat di decision log (D-2) dengan tanggal & hasil.
